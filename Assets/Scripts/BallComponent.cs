@@ -37,4 +37,9 @@ public class BallComponent : MonoBehaviour
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         transform.position = new Vector3(worldPos.x, worldPos.y, 0);
     }
+
+    public bool IsSimulated()
+    {
+        return m_rigidbody2d.simulated;
+    }
 }
