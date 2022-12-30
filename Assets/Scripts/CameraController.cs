@@ -15,12 +15,17 @@ public class CameraController : MonoBehaviour
         targetRigidbody = camTarget.GetComponent<Rigidbody2D>();
     }
 
-    private void FixedUpdate()
+    private void LateUpdate()
     {
         if (!camTarget.IsSimulated()) return;
         float targetVelocity = targetRigidbody.velocity.magnitude;
         float movementTowardsSpeed = Time.fixedDeltaTime + targetVelocity;
-        Vector3 newPosition = camTarget.transform.position + originalPosition; // dla skrócenia linii poni¿ej
+        Vector3 newPosition = camTarget.transform.position + originalPosition;
         transform.position = Vector3.MoveTowards(transform.position, newPosition , movementTowardsSpeed);
+    }
+
+    public void ResetCamPosition()
+    {
+        transform.position = originalPosition;
     }
 }
