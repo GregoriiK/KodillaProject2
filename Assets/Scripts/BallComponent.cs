@@ -11,9 +11,22 @@ public class BallComponent : MonoBehaviour
     private LineRenderer m_lineRenderer;
     private TrailRenderer m_trailRenderer;
     private bool m_hitTheGround = false;
+    private bool isMouseOver = false;
 
     public float SlingStart = 0.5f;
     public float MaxSpringDistance = 2.5f;
+
+    [Header("Sling attach points offset")]
+    public Vector2 FirstSlingArmOffset = new Vector2(0.48f, 0.15f);
+    public Vector2 SecondSlingArmOffset = new Vector2(-0.5f, 0f);
+    public Vector2 BallSlingOffset = new Vector2(-0.2f, -0.05f);
+
+    private AudioSource m_audioSource;
+    [Header("Audio")]
+    public AudioClip PullSound;
+    public AudioClip ShootSound;
+    public AudioClip HitSound;
+    public AudioClip RestartSound;
 
     Rigidbody2D m_rigidbody2d;
     CameraController cameraController;
@@ -29,6 +42,7 @@ public class BallComponent : MonoBehaviour
         m_lineRenderer = GetComponent<LineRenderer>();
         m_trailRenderer = GetComponent<TrailRenderer>();
         cameraController = FindObjectOfType<CameraController>();
+        m_audioSource = GetComponent<AudioSource>();
 
         m_lineRenderer.enabled = false;
         m_trailRenderer.enabled = false;
@@ -43,7 +57,7 @@ public class BallComponent : MonoBehaviour
             m_trailRenderer.enabled = !m_hitTheGround;
         }
 
-        RenderSlingLine();
+        SetLineRendererPoints();
 
         if (Input.GetKeyUp(KeyCode.R))
             Restart();
@@ -51,6 +65,7 @@ public class BallComponent : MonoBehaviour
 
     private void Restart()
     {
+        m_audioSource.PlayOneShot(RestartSound);
         cameraController.ResetCamPosition();
         transform.position = m_startPosition;
         transform.rotation = m_startRotation;
@@ -63,32 +78,44 @@ public class BallComponent : MonoBehaviour
         m_lineRenderer.enabled = false;
         m_trailRenderer.enabled = false;
 
-        RenderSlingLine();
+        SetLineRendererPoints();
     }
 
-    private void RenderSlingLine()
+    private void SetLineRendererPoints()
     {
         m_lineRenderer.positionCount = 3;
-
-        var firstSlingArmPosition = m_connectedBody.position + new Vector2(0.48f, 0.15f);
-        var secondSlingArmPosition = m_connectedBody.position + new Vector2(-0.5f, 0f);
-        var ballSlingPosition = transform.position + new Vector3(-0.2f, -0.05f);
+        Vector2 curBallPos = new Vector2(transform.position.x, transform.position.y);
+        var firstSlingArmPosition = m_connectedBody.position + FirstSlingArmOffset;
+        var secondSlingArmPosition = m_connectedBody.position + SecondSlingArmOffset;
+        var ballSlingPosition = curBallPos + BallSlingOffset;
         m_lineRenderer.SetPositions(new Vector3[] { firstSlingArmPosition, ballSlingPosition, secondSlingArmPosition });
+    }
+
+    private void OnMouseDown()
+    {
+        if (isMouseOver)
+        {
+            m_audioSource.PlayOneShot(PullSound);
+        }
     }
 
     private void OnMouseUp()
     {
         m_rigidbody2d.simulated = true;
+        if (isMouseOver)
+        {
+            m_audioSource.PlayOneShot(ShootSound);
+        }
     }
 
     private void OnMouseEnter()
     {
-        //Debug.Log("Mouse entering over object");
+        isMouseOver = true;
     }
 
     private void OnMouseExit()
     {
-        //Debug.Log("Mouse leaving object");
+        isMouseOver = false;
     }
 
     private void OnMouseDrag()
@@ -121,6 +148,7 @@ public class BallComponent : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        m_audioSource.PlayOneShot(HitSound);
         if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
             m_hitTheGround = true;
