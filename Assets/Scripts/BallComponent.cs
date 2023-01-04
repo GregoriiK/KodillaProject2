@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BallComponent : MonoBehaviour
+public class BallComponent : MonoBehaviour, IRestartableObject
 {
     private Vector3 m_startPosition;
     private Quaternion m_startRotation;
@@ -26,12 +26,10 @@ public class BallComponent : MonoBehaviour
     public AudioClip ShootSound;
     public AudioClip HitSound;
     public AudioClip RestartSound;
-    public AudioClip WoodHit;
 
     [Header("Particles")]
     public ParticleSystem ShootParticles;
     public ParticleSystem DragParticles;
-    public ParticleSystem WoodHitParticles;
 
     Rigidbody2D m_rigidbody2d;
     CameraController cameraController;
@@ -52,6 +50,9 @@ public class BallComponent : MonoBehaviour
         m_lineRenderer.enabled = false;
         m_trailRenderer.enabled = false;
         DragParticles.Stop();
+
+        GameplayManager.OnGamePaused += DoPause;
+        GameplayManager.OnGamePlaying += DoPlay;
     }
 
     private void Update()
@@ -64,12 +65,9 @@ public class BallComponent : MonoBehaviour
         }
 
         SetLineRendererPoints();
-
-        if (Input.GetKeyUp(KeyCode.R))
-            Restart();
     }
 
-    private void Restart()
+    public void DoRestart()
     {
         m_audioSource.PlayOneShot(RestartSound);
         cameraController.ResetCamPosition();
@@ -113,10 +111,6 @@ public class BallComponent : MonoBehaviour
 
     private void OnMouseDrag()
     {
-        if (GameplayManager.Instance.Pause)
-        {
-            return;
-        }
 
         m_hitTheGround = false;
         m_lineRenderer.enabled = true;
@@ -146,16 +140,20 @@ public class BallComponent : MonoBehaviour
             m_audioSource.PlayOneShot(HitSound);
             m_hitTheGround = true;
         }
-
-        if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Target"))
-        {
-            m_audioSource.PlayOneShot(WoodHit);
-            Instantiate(WoodHitParticles, collision.contacts[0].point, Quaternion.identity);
-        }
     }
 
     public bool IsSimulated()
     {
         return m_rigidbody2d.simulated;
+    }
+
+    private void DoPlay()
+    {
+        m_rigidbody2d.simulated = true;
+    }
+
+    private void DoPause()
+    {
+        m_rigidbody2d.simulated = false;
     }
 }

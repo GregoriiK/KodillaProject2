@@ -9701,7 +9701,7 @@ GameObject:
   - component: {fileID: 5260561270770860167}
   - component: {fileID: 5260561270770860223}
   - component: {fileID: 959985762}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: BowlingBallSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9793,7 +9793,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 3a3c24f94b850fe4f8e43efa3b4b5628, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
@@ -10044,8 +10044,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04f347fb50a93834a9f9ea2442e2dca1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_shootParticles: {fileID: 0}
-  m_dragParticles: {fileID: 0}
   SlingStart: 0.5
   MaxSpringDistance: 2.5
   FirstSlingArmOffset: {x: 0.48, y: 0.15}
@@ -10055,6 +10053,8 @@ MonoBehaviour:
   ShootSound: {fileID: 8300000, guid: 5f97aca08bc8b0343bfce70f182a327b, type: 3}
   HitSound: {fileID: 8300000, guid: c549ee150b4262345bd5385477ed63d3, type: 3}
   RestartSound: {fileID: 8300000, guid: 6e8513df8102d5b499fc41aaf88ffda2, type: 3}
+  ShootParticles: {fileID: 314911835141627469}
+  DragParticles: {fileID: 2784579155034167228}
 --- !u!82 &959985762
 AudioSource:
   m_ObjectHideFlags: 0
