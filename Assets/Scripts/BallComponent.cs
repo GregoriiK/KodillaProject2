@@ -11,7 +11,6 @@ public class BallComponent : MonoBehaviour
     private LineRenderer m_lineRenderer;
     private TrailRenderer m_trailRenderer;
     private bool m_hitTheGround = false;
-    private bool isMouseOver = false;
 
     public float SlingStart = 0.5f;
     public float MaxSpringDistance = 2.5f;
@@ -27,6 +26,12 @@ public class BallComponent : MonoBehaviour
     public AudioClip ShootSound;
     public AudioClip HitSound;
     public AudioClip RestartSound;
+    public AudioClip WoodHit;
+
+    [Header("Particles")]
+    public ParticleSystem ShootParticles;
+    public ParticleSystem DragParticles;
+    public ParticleSystem WoodHitParticles;
 
     Rigidbody2D m_rigidbody2d;
     CameraController cameraController;
@@ -46,6 +51,7 @@ public class BallComponent : MonoBehaviour
 
         m_lineRenderer.enabled = false;
         m_trailRenderer.enabled = false;
+        DragParticles.Stop();
     }
 
     private void Update()
@@ -93,29 +99,16 @@ public class BallComponent : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (isMouseOver)
-        {
-            m_audioSource.PlayOneShot(PullSound);
-        }
+        m_audioSource.PlayOneShot(PullSound);
+        DragParticles.Play();
     }
 
     private void OnMouseUp()
     {
         m_rigidbody2d.simulated = true;
-        if (isMouseOver)
-        {
-            m_audioSource.PlayOneShot(ShootSound);
-        }
-    }
-
-    private void OnMouseEnter()
-    {
-        isMouseOver = true;
-    }
-
-    private void OnMouseExit()
-    {
-        isMouseOver = false;
+        m_audioSource.PlayOneShot(ShootSound);
+        ShootParticles.Play();
+        DragParticles.Stop();
     }
 
     private void OnMouseDrag()
@@ -148,10 +141,16 @@ public class BallComponent : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        m_audioSource.PlayOneShot(HitSound);
         if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
+            m_audioSource.PlayOneShot(HitSound);
             m_hitTheGround = true;
+        }
+
+        if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Target"))
+        {
+            m_audioSource.PlayOneShot(WoodHit);
+            Instantiate(WoodHitParticles, collision.contacts[0].point, Quaternion.identity);
         }
     }
 

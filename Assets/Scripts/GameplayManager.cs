@@ -18,6 +18,8 @@ public class GameplayManager : Singleton<GameplayManager>
             Pause = !Pause;
         }
 
+        if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }
+
         if (Pause)
         {
             Time.timeScale = 0;
