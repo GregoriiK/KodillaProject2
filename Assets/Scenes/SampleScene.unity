@@ -6246,6 +6246,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BowlingBallSprite
       objectReference: {fileID: 0}
+    - target: {fileID: 5260561270770860222, guid: 425c11eb3c9a1924598480681b485a03, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5260561270770860223, guid: 425c11eb3c9a1924598480681b485a03, type: 3}
       propertyPath: WoodHit
       value: 
