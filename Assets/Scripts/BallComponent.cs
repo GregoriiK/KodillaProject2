@@ -70,7 +70,12 @@ public class BallComponent : InteractiveComponent
         base.PlaySound(m_audioSource, RestartSound);
         cameraController.ResetCamPosition();
 
-        base.DoRestart(m_rigidbody2d, m_startPosition, m_startRotation);
+        transform.position = m_startPosition;
+        transform.rotation = m_startRotation;
+
+        m_rigidbody2d.velocity = Vector3.zero;
+        m_rigidbody2d.angularVelocity = 0.0f;
+        m_rigidbody2d.simulated = true;
 
         m_connectedJoint.enabled = true;
         m_lineRenderer.enabled = false;

@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class TargetComponent : InteractiveComponent
 {
-
-    //private AudioSource m_audioSource;
-
     public AudioClip WoodHit;
     public ParticleSystem WoodHitParticles;
 
@@ -48,7 +45,12 @@ public class TargetComponent : InteractiveComponent
 
     public override void DoRestart()
     {
-        base.DoRestart(m_rigidbody2d, m_startPosition, m_startRotation);
+        transform.position = m_startPosition;
+        transform.rotation = m_startRotation;
+
+        m_rigidbody2d.velocity = Vector3.zero;
+        m_rigidbody2d.angularVelocity = 0.0f;
+        m_rigidbody2d.simulated = true;
     }
 
     private void OnDestroy()
