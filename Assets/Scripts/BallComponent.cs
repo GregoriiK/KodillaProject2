@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class BallComponent : InteractiveComponent
 {
-    private Vector3 m_startPosition;
-    private Quaternion m_startRotation;
     private SpringJoint2D m_connectedJoint;
     private Rigidbody2D m_connectedBody;
     private LineRenderer m_lineRenderer;
@@ -29,7 +27,6 @@ public class BallComponent : InteractiveComponent
     public ParticleSystem ShootParticles;
     public ParticleSystem DragParticles;
 
-    Rigidbody2D m_rigidbody2d;
     CameraController cameraController;
 
     private void Start()
@@ -37,7 +34,6 @@ public class BallComponent : InteractiveComponent
         m_startPosition = transform.position;
         m_startRotation = transform.rotation;
 
-        m_rigidbody2d = GetComponent<Rigidbody2D>();
         m_connectedJoint = GetComponent<SpringJoint2D>();
         m_connectedBody = m_connectedJoint.connectedBody;
         m_lineRenderer = GetComponent<LineRenderer>();
@@ -67,15 +63,10 @@ public class BallComponent : InteractiveComponent
 
     public override void DoRestart()
     {
-        base.PlaySound(m_audioSource, RestartSound);
+        PlaySound(m_audioSource, RestartSound);
         cameraController.ResetCamPosition();
 
-        transform.position = m_startPosition;
-        transform.rotation = m_startRotation;
-
-        m_rigidbody2d.velocity = Vector3.zero;
-        m_rigidbody2d.angularVelocity = 0.0f;
-        m_rigidbody2d.simulated = true;
+        base.DoRestart();
 
         m_connectedJoint.enabled = true;
         m_lineRenderer.enabled = false;
@@ -96,14 +87,14 @@ public class BallComponent : InteractiveComponent
 
     private void OnMouseDown()
     {
-        base.PlaySound(m_audioSource, PullSound);
+        PlaySound(m_audioSource, PullSound);
         DragParticles.Play();
     }
 
     private void OnMouseUp()
     {
-        m_rigidbody2d.simulated = true;
-        base.PlaySound(m_audioSource, ShootSound);
+        DoPlay();
+        PlaySound(m_audioSource, ShootSound);
         ShootParticles.Play();
         DragParticles.Stop();
     }
@@ -113,7 +104,7 @@ public class BallComponent : InteractiveComponent
 
         m_hitTheGround = false;
         m_lineRenderer.enabled = true;
-        m_rigidbody2d.simulated = false;
+        DoPause();
 
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 newBallPos = new Vector3(worldPos.x, worldPos.y);
@@ -136,7 +127,7 @@ public class BallComponent : InteractiveComponent
     {
         if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
-            base.PlaySound(m_audioSource, HitSound);
+            PlaySound(m_audioSource, HitSound);
             m_hitTheGround = true;
         }
     }
@@ -146,13 +137,4 @@ public class BallComponent : InteractiveComponent
         return m_rigidbody2d.simulated;
     }
 
-    private void DoPlay()
-    {
-        m_rigidbody2d.simulated = true;
-    }
-
-    private void DoPause()
-    {
-        m_rigidbody2d.simulated = false;
-    }
 }

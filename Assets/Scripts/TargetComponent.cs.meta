@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 09886c46b3e6ace44b030e49e99e40d2
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - WoodHit: {fileID: 8300000, guid: 6cca82451cbe0d740a185658efe22445, type: 3}
+  - WoodHitParticles: {fileID: 5645264658705128045, guid: 87bba4e5e9e40214ca7749bbaca4159a, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
