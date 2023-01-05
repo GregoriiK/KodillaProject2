@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class BallComponent : MonoBehaviour, IRestartableObject
+public class BallComponent : InteractiveComponent
 {
     private Vector3 m_startPosition;
     private Quaternion m_startRotation;
@@ -20,7 +18,7 @@ public class BallComponent : MonoBehaviour, IRestartableObject
     public Vector2 SecondSlingArmOffset = new Vector2(-0.5f, 0f);
     public Vector2 BallSlingOffset = new Vector2(-0.2f, -0.05f);
 
-    private AudioSource m_audioSource;
+    public AudioSource m_audioSource;
     [Header("Audio")]
     public AudioClip PullSound;
     public AudioClip ShootSound;
@@ -67,16 +65,12 @@ public class BallComponent : MonoBehaviour, IRestartableObject
         SetLineRendererPoints();
     }
 
-    public void DoRestart()
+    public override void DoRestart()
     {
-        m_audioSource.PlayOneShot(RestartSound);
+        base.PlaySound(m_audioSource, RestartSound);
         cameraController.ResetCamPosition();
-        transform.position = m_startPosition;
-        transform.rotation = m_startRotation;
 
-        m_rigidbody2d.velocity = Vector3.zero;
-        m_rigidbody2d.angularVelocity = 0.0f;
-        m_rigidbody2d.simulated = true;
+        base.DoRestart(m_rigidbody2d, m_startPosition, m_startRotation);
 
         m_connectedJoint.enabled = true;
         m_lineRenderer.enabled = false;
@@ -97,14 +91,14 @@ public class BallComponent : MonoBehaviour, IRestartableObject
 
     private void OnMouseDown()
     {
-        m_audioSource.PlayOneShot(PullSound);
+        base.PlaySound(m_audioSource, PullSound);
         DragParticles.Play();
     }
 
     private void OnMouseUp()
     {
         m_rigidbody2d.simulated = true;
-        m_audioSource.PlayOneShot(ShootSound);
+        base.PlaySound(m_audioSource, ShootSound);
         ShootParticles.Play();
         DragParticles.Stop();
     }
@@ -137,7 +131,7 @@ public class BallComponent : MonoBehaviour, IRestartableObject
     {
         if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
-            m_audioSource.PlayOneShot(HitSound);
+            base.PlaySound(m_audioSource, HitSound);
             m_hitTheGround = true;
         }
     }
