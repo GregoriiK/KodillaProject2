@@ -102,8 +102,8 @@ public class BallComponent : InteractiveComponent
     private void OnMouseDrag()
     {
 
-        m_hitTheGround = false;
         m_lineRenderer.enabled = true;
+        m_hitTheGround = false;
         DoPause();
 
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);

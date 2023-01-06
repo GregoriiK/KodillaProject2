@@ -11,6 +11,7 @@ public class GameplayManager : Singleton<GameplayManager>
     public static event GameStateCallback OnGamePlaying;
 
     private HUDController m_HUD;
+    private PauseMenuController m_pauseMenu;
     private int m_points = 0;
 
     List<IRestartableObject> m_restartableObjects = new List<IRestartableObject>();
@@ -28,6 +29,7 @@ public class GameplayManager : Singleton<GameplayManager>
         m_state = EGameState.Playing;
         GetAllRestartableObjects();
         m_HUD = FindObjectOfType<HUDController>();
+        m_pauseMenu = FindObjectOfType<PauseMenuController>();
         Points = 0;
     }
 
@@ -44,8 +46,8 @@ public class GameplayManager : Singleton<GameplayManager>
     {
         switch (GameState)
         {
-            case EGameState.Playing: { GameState = EGameState.Paused; } break;
-            case EGameState.Paused: { GameState = EGameState.Playing; } break;
+            case EGameState.Playing: { GameState = EGameState.Paused; }  break;
+            case EGameState.Paused: { GameState = EGameState.Playing; }  break;
         }
     }
 
@@ -60,13 +62,17 @@ public class GameplayManager : Singleton<GameplayManager>
             {
                 case EGameState.Paused:
                 {
-                    if (OnGamePaused != null) OnGamePaused();
-                    break;
+                    if (OnGamePaused != null) OnGamePaused(); 
+                        m_HUD.gameObject.SetActive(false);
+                        m_pauseMenu.gameObject.SetActive(true);
+                        break;
                 }
                 case EGameState.Playing:
                 {
-                    if (OnGamePlaying != null) OnGamePlaying();
-                    break;
+                    if (OnGamePlaying != null) OnGamePlaying(); 
+                        m_HUD.gameObject.SetActive(true);
+                        m_pauseMenu.gameObject.SetActive(false);
+                        break;
                 }
 
             }
@@ -95,6 +101,8 @@ public class GameplayManager : Singleton<GameplayManager>
         foreach (var restartableObject in m_restartableObjects) restartableObject.DoRestart();
 
         Points = 0;
+
+        GameState = EGameState.Playing;
     }
 
     public int Points

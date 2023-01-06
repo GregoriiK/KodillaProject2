@@ -25,7 +25,7 @@ public class InteractiveComponent : MonoBehaviour, IRestartableObject
         m_rigidbody2d.simulated = true;
     }
 
-    public virtual void PlaySound(AudioSource audioSource, AudioClip audioClip)
+    public void PlaySound(AudioSource audioSource, AudioClip audioClip)
     {
         audioSource.PlayOneShot(audioClip);
     }
