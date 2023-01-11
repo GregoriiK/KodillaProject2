@@ -64,6 +64,8 @@ public class PauseMenuController : MonoBehaviour
 
     private void Confirm()
     {
+        SaveManager.Instance.SaveSettings();
+        GameplayManager.Instance.SaveHitcount();
         Application.Quit();
     }
 

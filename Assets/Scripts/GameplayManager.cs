@@ -17,6 +17,8 @@ public class GameplayManager : Singleton<GameplayManager>
     private int m_points = 0;
     private bool condition;
 
+    public int LifetimeHits;
+
     List<IRestartableObject> m_restartableObjects = new List<IRestartableObject>();
 
     public enum EGameState
@@ -39,6 +41,7 @@ public class GameplayManager : Singleton<GameplayManager>
         m_HUD = FindObjectOfType<HUDController>();
         m_pauseMenu = FindObjectOfType<PauseMenuController>();
         Points = 0;
+        LoadHitcount();
 
         //bug creator - DELETE later
         /*
@@ -62,6 +65,17 @@ public class GameplayManager : Singleton<GameplayManager>
         //StartCoroutine(TestCoroutine());
         //AsyncFrameCounter();
         //SecondTestAsync();
+    }
+
+    public void SaveHitcount()
+    {
+        PlayerPrefs.SetInt("LifetimeHits", LifetimeHits);
+    }
+
+    public void LoadHitcount()
+    {
+        LifetimeHits = PlayerPrefs.GetInt("LifetimeHits");
+        Debug.Log("Lifetime Hits: " + LifetimeHits);
     }
 
     async void AsyncFrameCounter()

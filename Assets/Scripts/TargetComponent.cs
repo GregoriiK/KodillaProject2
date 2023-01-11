@@ -24,6 +24,7 @@ public class TargetComponent : InteractiveComponent
             PlaySound(m_audioSource, WoodHit);
             Instantiate(WoodHitParticles, collision.GetContact(0).point, Quaternion.identity);
             GameplayManager.Instance.Points += 1;
+            GameplayManager.Instance.LifetimeHits += 1;
         }
     }
 
