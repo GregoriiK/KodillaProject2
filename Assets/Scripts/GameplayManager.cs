@@ -1,7 +1,9 @@
 using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Threading.Tasks;
 
 public class GameplayManager : Singleton<GameplayManager>
 {
@@ -13,6 +15,7 @@ public class GameplayManager : Singleton<GameplayManager>
     private HUDController m_HUD;
     private PauseMenuController m_pauseMenu;
     private int m_points = 0;
+    private bool condition;
 
     List<IRestartableObject> m_restartableObjects = new List<IRestartableObject>();
 
@@ -24,6 +27,11 @@ public class GameplayManager : Singleton<GameplayManager>
 
     private EGameState m_state;
 
+    private void OnEnable()
+    {
+        condition = true;
+    }
+
     private void Start()
     {
         m_state = EGameState.Playing;
@@ -31,6 +39,78 @@ public class GameplayManager : Singleton<GameplayManager>
         m_HUD = FindObjectOfType<HUDController>();
         m_pauseMenu = FindObjectOfType<PauseMenuController>();
         Points = 0;
+
+        //bug creator - DELETE later
+        /*
+        int[] Test = new int[2] { 0, 0 };
+
+        try
+        {
+            TestThrow();
+            Test[2] = 1;
+        }
+        catch (IndexOutOfRangeException e)
+        {
+            Debug.Log("Indez excepction: " + e.Message);
+        }
+        catch (NullReferenceException e)
+        {
+            Debug.Log("Null exception: " + e.Message);
+        }
+        */
+        //StartCoroutine(FrameCounter());
+        //StartCoroutine(TestCoroutine());
+        //AsyncFrameCounter();
+        //SecondTestAsync();
+    }
+
+    async void AsyncFrameCounter()
+    {
+        while (condition)
+        {
+            await Task.Delay(TimeSpan.FromSeconds(1));
+            Debug.Log(Time.frameCount / Time.time);
+        }
+    }
+
+    private void OnDisable()
+    {
+        condition = false;
+    }
+
+    async Task TestAsync()
+    {
+        Debug.Log("Starting async method");
+        await Task.Delay(TimeSpan.FromSeconds(3));
+        Debug.Log("Async done after 3sec.");
+    }
+
+    async void SecondTestAsync()
+    {
+        Debug.Log("Starting second async method");
+        await TestAsync();
+        Debug.Log("Second async done");
+    }
+
+    private IEnumerator FrameCounter()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1f);
+            Debug.Log(Time.frameCount / Time.time); //podpowiedŸ w æwiczeniu sugeruje, ¿e autorowi chodzi³o o œredni¹ iloœæ klatek na sekundê. Inaczej by³oby 1/Time.deltaTime
+        }
+    }
+
+    private IEnumerator TestCoroutine()
+    {
+        Debug.Log("Starting coroutine method");
+        yield return new WaitForSeconds(3);
+        Debug.Log("Coroutine done after 3 seconds");
+    }
+
+    private void TestThrow()
+    {
+        throw new NullReferenceException("Test exception");
     }
 
     void Update()
@@ -41,6 +121,7 @@ public class GameplayManager : Singleton<GameplayManager>
 
         if (Input.GetKeyUp(KeyCode.R)) Restart();
     }
+
 
     public void PlayPause()
     {

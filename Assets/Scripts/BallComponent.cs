@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class BallComponent : InteractiveComponent
 {
@@ -47,18 +48,34 @@ public class BallComponent : InteractiveComponent
 
         GameplayManager.OnGamePaused += DoPause;
         GameplayManager.OnGamePlaying += DoPlay;
+
+        StartCoroutine(BallReleaseCoroutine());
     }
 
     private void Update()
     {
-        if (transform.position.x > m_connectedBody.transform.position.x + SlingStart)
-        {
-            m_connectedJoint.enabled = false;
-            m_lineRenderer.enabled = false;
-            m_trailRenderer.enabled = !m_hitTheGround;
-        }
-
         SetLineRendererPoints();
+    }
+
+    private IEnumerator BallReleaseCoroutine()
+    {
+        while (true)
+        {
+            if (Time.frameCount % 2 != 0)
+            { 
+                yield return null;
+            }
+            else
+            {
+                if (transform.position.x > m_connectedBody.transform.position.x + SlingStart)
+                {
+                    m_connectedJoint.enabled = false;
+                    m_lineRenderer.enabled = false;
+                    m_trailRenderer.enabled = !m_hitTheGround;
+                }
+                yield return null;
+            }
+        }
     }
 
     public override void DoRestart()

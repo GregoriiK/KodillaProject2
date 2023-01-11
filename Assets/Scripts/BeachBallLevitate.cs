@@ -11,20 +11,44 @@ public class BeachBallLevitate : MonoBehaviour
 
     public float Amplitude = 1.0f;
     public float RotationSpeed = 50;
+    public float holdTime = 1f;
 
     void Start()
     {
         m_startPosition = transform.position;
+        StartCoroutine(LevitationHold());
     }
 
-    void Update()
-    {
-        m_curYPos = Mathf.PingPong(Time.time, Amplitude) - Amplitude * 0.5f;
-        transform.position = new Vector3(m_startPosition.x,
-                                         m_startPosition.y + m_curYPos,
-                                         m_startPosition.z);
+    private void Update()
+    {        
+            m_curZRot += Time.deltaTime * RotationSpeed;
+            transform.rotation = Quaternion.Euler(0, 0, m_curZRot);
+    }
 
-        m_curZRot += Time.deltaTime * RotationSpeed;
-        transform.rotation = Quaternion.Euler(0, 0, m_curZRot);
+    private IEnumerator LevitationHold()
+    {
+        float previousPos;
+        float lastPosition = 0f;
+        float timer = 0f;
+
+        while (true)
+        {
+            timer += Time.deltaTime;
+            previousPos = lastPosition;
+            lastPosition = m_curYPos;
+            m_curYPos = Mathf.PingPong(timer, Amplitude); // - Amplitude * 0.5f;
+            transform.position = new Vector3(m_startPosition.x,
+                                             m_startPosition.y + m_curYPos,
+                                             m_startPosition.z);
+
+            if (lastPosition - previousPos < 0 && m_curYPos - lastPosition > 0)
+            {
+                yield return new WaitForSeconds(holdTime);
+            }
+            else
+            {
+                yield return null;
+            }
+        }        
     }
 }
