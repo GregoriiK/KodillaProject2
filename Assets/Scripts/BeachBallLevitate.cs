@@ -36,7 +36,7 @@ public class BeachBallLevitate : MonoBehaviour
             timer += Time.deltaTime;
             previousPos = lastPosition;
             lastPosition = m_curYPos;
-            m_curYPos = Mathf.PingPong(timer, Amplitude); // - Amplitude * 0.5f;
+            m_curYPos = Mathf.PingPong(timer, Amplitude);
             transform.position = new Vector3(m_startPosition.x,
                                              m_startPosition.y + m_curYPos,
                                              m_startPosition.z);

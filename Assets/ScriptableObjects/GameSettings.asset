@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcee06f600be68e49ac587c306759086, type: 3}
+  m_Name: GameSettings
+  m_EditorClassIdentifier: 
+  TargetPerfab: {fileID: 7480662671379414777, guid: e47038d3fe26e504aacb472ffa1a08d3, type: 3}
+  PullSound: {fileID: 8300000, guid: 8e2daee02a699d546b787ce8172f2f4c, type: 3}
+  ShootSound: {fileID: 8300000, guid: 5f97aca08bc8b0343bfce70f182a327b, type: 3}
+  HitSound: {fileID: 8300000, guid: c549ee150b4262345bd5385477ed63d3, type: 3}
+  RestartSound: {fileID: 8300000, guid: 6e8513df8102d5b499fc41aaf88ffda2, type: 3}
+  WoodHit: {fileID: 8300000, guid: 6cca82451cbe0d740a185658efe22445, type: 3}
+  WoodHitParticles: {fileID: 5645264658705128045, guid: 87bba4e5e9e40214ca7749bbaca4159a, type: 3}

@@ -146,5 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09886c46b3e6ace44b030e49e99e40d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WoodHit: {fileID: 8300000, guid: 6cca82451cbe0d740a185658efe22445, type: 3}
-  WoodHitParticles: {fileID: 5645264658705128045, guid: 87bba4e5e9e40214ca7749bbaca4159a, type: 3}
+  m_startPosition: {x: 0, y: 0, z: 0}
+  m_startRotation: {x: 0, y: 0, z: 0, w: 0}
+  m_rigidbody2d: {fileID: 0}
+  GameDatabase: {fileID: 11400000, guid: 47e7115bea3369e43b900b1f935177ac, type: 2}

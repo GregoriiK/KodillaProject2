@@ -18,15 +18,12 @@ public class BallComponent : InteractiveComponent
     public Vector2 BallSlingOffset = new Vector2(-0.2f, -0.05f);
 
     public AudioSource m_audioSource;
-    [Header("Audio")]
-    public AudioClip PullSound;
-    public AudioClip ShootSound;
-    public AudioClip HitSound;
-    public AudioClip RestartSound;
 
     [Header("Particles")]
     public ParticleSystem ShootParticles;
     public ParticleSystem DragParticles;
+
+    public GameSettingsDatabase GameDatabase;
 
     CameraController cameraController;
 
@@ -80,7 +77,7 @@ public class BallComponent : InteractiveComponent
 
     public override void DoRestart()
     {
-        PlaySound(m_audioSource, RestartSound);
+        PlaySound(m_audioSource, GameDatabase.RestartSound);
         cameraController.ResetCamPosition();
 
         base.DoRestart();
@@ -104,14 +101,14 @@ public class BallComponent : InteractiveComponent
 
     private void OnMouseDown()
     {
-        PlaySound(m_audioSource, PullSound);
+        PlaySound(m_audioSource, GameDatabase.PullSound);
         DragParticles.Play();
     }
 
     private void OnMouseUp()
     {
         DoPlay();
-        PlaySound(m_audioSource, ShootSound);
+        PlaySound(m_audioSource, GameDatabase.ShootSound);
         ShootParticles.Play();
         DragParticles.Stop();
     }
@@ -144,7 +141,7 @@ public class BallComponent : InteractiveComponent
     {
         if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
-            PlaySound(m_audioSource, HitSound);
+            PlaySound(m_audioSource, GameDatabase.HitSound);
             m_hitTheGround = true;
         }
     }

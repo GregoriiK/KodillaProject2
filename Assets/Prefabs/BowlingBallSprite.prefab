@@ -10053,12 +10053,9 @@ MonoBehaviour:
   SecondSlingArmOffset: {x: -0.5, y: 0}
   BallSlingOffset: {x: -0.2, y: -0.05}
   m_audioSource: {fileID: 0}
-  PullSound: {fileID: 8300000, guid: 8e2daee02a699d546b787ce8172f2f4c, type: 3}
-  ShootSound: {fileID: 8300000, guid: 5f97aca08bc8b0343bfce70f182a327b, type: 3}
-  HitSound: {fileID: 8300000, guid: c549ee150b4262345bd5385477ed63d3, type: 3}
-  RestartSound: {fileID: 8300000, guid: 6e8513df8102d5b499fc41aaf88ffda2, type: 3}
   ShootParticles: {fileID: 314911835141627469}
   DragParticles: {fileID: 2784579155034167228}
+  GameDatabase: {fileID: 0}
 --- !u!82 &959985762
 AudioSource:
   m_ObjectHideFlags: 0
@@ -10071,7 +10068,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.75
+  m_Volume: 0.6
   m_Pitch: 1
   Loop: 0
   Mute: 0
