@@ -20,7 +20,7 @@ public class CameraController : MonoBehaviour
         if (!camTarget.IsSimulated()) return;
         float targetVelocity = targetRigidbody.velocity.magnitude;
         float movementTowardsSpeed = Time.fixedDeltaTime + targetVelocity;
-        Vector3 newPosition = camTarget.transform.position + originalPosition;
+        Vector3 newPosition = new Vector3(camTarget.transform.position.x + originalPosition.x, originalPosition.y, originalPosition.z);
         transform.position = Vector3.MoveTowards(transform.position, newPosition , movementTowardsSpeed);
     }
 

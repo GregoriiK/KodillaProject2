@@ -51,14 +51,14 @@ Shader "Unlit/VertexMovement"
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.vertex.x += _HorizontalOffset;
-                o.vertex.y += _Amplitude/10 * sin(_Time.y * _BounceFrequency);
+                o.vertex.y += _Amplitude * 0.1 * sin(_Time.y * _BounceFrequency);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 return o;
             }
 
             fixed4 frag (v2f i) : SV_Target
             {
-                fixed4 col = lerp(tex2D(_MainTex,i.uv), tex2D(_SecTex,i.uv), clamp(((sin(_Time.y * _BlendFrequency)/2)+0.5), 0, 1));
+                fixed4 col = lerp(tex2D(_MainTex,i.uv), tex2D(_SecTex,i.uv), clamp(((sin(_Time.y * _BlendFrequency) * 0.5) + 0.5), 0, 1));
                 col *= _Color;
                 return col;
             }
