@@ -8,7 +8,6 @@ public class ShaderModification : MonoBehaviour
     public float horizontalOffset;
     public Color color;
     public Texture2D texture;
-    public Texture2D secTexture;
 
     void Start()
     {
