@@ -17,6 +17,7 @@ public struct GameSaveData
 public class SaveManager : Singleton<SaveManager>
 {
     public GameSaveData SaveData;
+
     public bool UseBinary = true;
 
     private string m_pathJSON;
