@@ -1,0 +1,28 @@
+ManifestFileVersion: 0
+CRC: 1632926235
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 4cc8cae7e28e09c7b851f16f262f29bd
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 4b8fe1a60cc05eed8f66137d15524f96
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 212
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/Prefabs/Prefab 2.prefab
+Dependencies:
+- C:/Users/Admin/Documents/GitHub/KodillaProject2/Assets/StreamingAssets/2d
