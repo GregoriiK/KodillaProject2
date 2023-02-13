@@ -161,6 +161,63 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 514, y: 128}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1001 &42215988
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4099417140640124705, guid: c3f44ba5be7877243b05dd68c143b72a, type: 3}
+      propertyPath: m_RootOrder
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4099417140640124705, guid: c3f44ba5be7877243b05dd68c143b72a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4099417140640124705, guid: c3f44ba5be7877243b05dd68c143b72a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4099417140640124705, guid: c3f44ba5be7877243b05dd68c143b72a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4099417140640124705, guid: c3f44ba5be7877243b05dd68c143b72a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4099417140640124705, guid: c3f44ba5be7877243b05dd68c143b72a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4099417140640124705, guid: c3f44ba5be7877243b05dd68c143b72a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4099417140640124705, guid: c3f44ba5be7877243b05dd68c143b72a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4099417140640124705, guid: c3f44ba5be7877243b05dd68c143b72a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4099417140640124705, guid: c3f44ba5be7877243b05dd68c143b72a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4099417140640124705, guid: c3f44ba5be7877243b05dd68c143b72a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4099417140640124719, guid: c3f44ba5be7877243b05dd68c143b72a, type: 3}
+      propertyPath: m_Name
+      value: ExerciseButtons
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c3f44ba5be7877243b05dd68c143b72a, type: 3}
 --- !u!1 &45382740
 GameObject:
   m_ObjectHideFlags: 0
@@ -9611,10 +9668,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a07b5db0631c2c64f9041d456168fca1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AssetBundleURL: https://uploads.kodilla.com/bootcamp/gamedev/v2/sprites
-  AssetBundleName: 
+  AssetBundleURL: file:///C:/Users/Admin/Documents/GitHub/KodillaProject2/Assets/StreamingAssets/scenes
+  AssetBundleName: 2d
   AbVersion: 1
   AbVersionURL: https://uploads.kodilla.com/bootcamp/gamedev/abVersion.txt
+  BallSpriteName: BallSprite
+  scenePaths: []
 --- !u!4 &1167339665
 Transform:
   m_ObjectHideFlags: 0
