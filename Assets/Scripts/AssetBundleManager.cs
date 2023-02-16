@@ -5,6 +5,7 @@ using System.IO;
 using UnityEngine.Networking;
 using System;
 using UnityEngine.SceneManagement;
+using UnityEditor.SearchService;
 
 public class AssetBundleManager : Singleton<AssetBundleManager>
 {
@@ -83,6 +84,8 @@ public class AssetBundleManager : Singleton<AssetBundleManager>
     public IEnumerator LoadLevel()
     {
         yield return StartCoroutine(LoadAssetFromURL());
+        yield return StartCoroutine(LoadAssets(AssetBundleName, result => ab = result));
+        ab.LoadAllAssets();
         int i = SceneManager.GetActiveScene().buildIndex;
         Debug.Log(i);
         Debug.Log(scenePaths.Length);
@@ -90,11 +93,9 @@ public class AssetBundleManager : Singleton<AssetBundleManager>
         {
             i = 0;
         }
-        else
-        {
-            i++;
-        }
+
         SceneManager.LoadScene(scenePaths[i]);
+        i++;
     }
 
 
