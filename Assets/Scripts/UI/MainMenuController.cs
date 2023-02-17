@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MainMenuController : MonoBehaviour
+public class MainMenuController : Singleton<MainMenuController>
 {
     public Button PlayButton;
     public Button OptionsButton;

@@ -37,7 +37,7 @@ public class GameplayManager : Singleton<GameplayManager>
     {
         //m_state = EGameState.Playing;
 
-        GameState = EGameState.Paused;
+        //GameState = EGameState.Paused;
         //Instantiate(GameDatabase.TargetPerfab, new Vector3(13.5f, -1.59f, 0f), Quaternion.identity);
 
         GetAllRestartableObjects();

@@ -5,28 +5,30 @@ using System.IO;
 using UnityEngine.Networking;
 using System;
 using UnityEngine.SceneManagement;
-using UnityEditor.SearchService;
 
 public class AssetBundleManager : Singleton<AssetBundleManager>
 {
-    public string AssetBundleURL;
-    public string AssetBundleName;
-    public uint AbVersion;
-    public string AbVersionURL;
-    public string BallSpriteName;
+    public string AssetBundleURL = "file:///C:/Users/Admin/Documents/GitHub/KodillaProject2/Assets/StreamingAssets/scenes";
+    public string AssetBundleName = "2d";
+    //public uint AbVersion;
+    //public string AbVersionURL = "https://uploads.kodilla.com/bootcamp/gamedev/abVersion.txt";
+    public string BallSpriteName = "BallSprite";
     public string[] scenePaths;
     private AssetBundle ab;
     private AssetBundle onlineAb;
+    private string streamingAssetsPath = Application.streamingAssetsPath;
 
-    //private IEnumerator Start()
-    //{
-    //    //yield return StartCoroutine(GetAbVersion());
-    //}
+    private IEnumerator Start()
+    {
+        yield return StartCoroutine(LoadAssetFromURL());
+        yield return StartCoroutine(LoadAssets(AssetBundleName, result => ab = result));
+        //yield return StartCoroutine(GetAbVersion());
+    }
 
     private IEnumerator LoadAssets(string name, Action<AssetBundle> bundle)
     {
         AssetBundleCreateRequest abcr;
-        string path = Path.Combine(Application.streamingAssetsPath, AssetBundleName);
+        string path = Path.Combine(streamingAssetsPath, AssetBundleName);
 
         abcr = AssetBundle.LoadFromFileAsync(path);
 
@@ -34,14 +36,15 @@ public class AssetBundleManager : Singleton<AssetBundleManager>
 
         bundle.Invoke(abcr.assetBundle);
         Debug.LogFormat(abcr.assetBundle == null ? "Failed to load Asset Bundle : {0}" : "Asset Bundle {0} loaded", name);
+
     }
 
     private IEnumerator LoadAssetFromURL()
     {
-        UnityWebRequest uwr = UnityWebRequestAssetBundle.GetAssetBundle(AssetBundleURL, AbVersion, 0);
+        UnityWebRequest uwr = UnityWebRequestAssetBundle.GetAssetBundle(AssetBundleURL);
         yield return uwr.SendWebRequest();
 
-        if(uwr.result == UnityWebRequest.Result.ConnectionError || 
+        if (uwr.result == UnityWebRequest.Result.ConnectionError ||
             uwr.result == UnityWebRequest.Result.ProtocolError)
         {
             Debug.Log(uwr.error);
@@ -54,24 +57,24 @@ public class AssetBundleManager : Singleton<AssetBundleManager>
         }
         Debug.Log("Downloaded bytes: " + uwr.downloadedBytes);
         Debug.Log(onlineAb == null ? "Failed to download Asset Bundle" : "Asset Bundle Downloaded");
+
     }
 
-    private IEnumerator GetAbVersion()
-    {
-        UnityWebRequest uwr = UnityWebRequest.Get(AbVersionURL);
-        yield return uwr.SendWebRequest();
-        if (uwr.result == UnityWebRequest.Result.ConnectionError ||
-            uwr.result == UnityWebRequest.Result.ProtocolError)
-        {
-            Debug.Log(uwr.error);
-        }
-        Debug.Log(uwr.downloadHandler.text);
-        AbVersion = uint.Parse(uwr.downloadHandler.text);
-    }
+    //private IEnumerator GetAbVersion()
+    //{
+    //    UnityWebRequest uwr = UnityWebRequest.Get(AbVersionURL);
+    //    yield return uwr.SendWebRequest();
+    //    if (uwr.result == UnityWebRequest.Result.ConnectionError ||
+    //        uwr.result == UnityWebRequest.Result.ProtocolError)
+    //    {
+    //        Debug.Log(uwr.error);
+    //    }
+    //    Debug.Log(uwr.downloadHandler.text);
+    //    AbVersion = uint.Parse(uwr.downloadHandler.text);
+    //}
 
     public IEnumerator LoadSingleAsset(string assetName)
     {
-        yield return StartCoroutine(LoadAssets(AssetBundleName, result => ab = result));
         var loadAssetReq = ab.LoadAssetAsync(assetName);
         yield return loadAssetReq;
         var ballSprite = FindObjectOfType<BallComponent>().GetComponent<SpriteRenderer>();
@@ -83,19 +86,30 @@ public class AssetBundleManager : Singleton<AssetBundleManager>
 
     public IEnumerator LoadLevel()
     {
-        yield return StartCoroutine(LoadAssetFromURL());
-        yield return StartCoroutine(LoadAssets(AssetBundleName, result => ab = result));
-        ab.LoadAllAssets();
+        if (!ab)
+        {
+            yield return StartCoroutine(LoadAssets(AssetBundleName, result => ab = result));
+            ab.LoadAllAssets();
+        }
+
         int i = SceneManager.GetActiveScene().buildIndex;
-        Debug.Log(i);
-        Debug.Log(scenePaths.Length);
-        if(i == scenePaths.Length-1)
+        if (i == scenePaths.Length - 1)
         {
             i = 0;
         }
 
-        SceneManager.LoadScene(scenePaths[i]);
+        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(scenePaths[i]);
+
+        while (!asyncOperation.isDone)
+        {
+            Debug.Log("Loading progress: " + asyncOperation.progress);
+            yield return null;
+        }
+
+        SceneManager.GetSceneByName(scenePaths[i]);
+
         i++;
+        ab.Unload(false);
     }
 
 
