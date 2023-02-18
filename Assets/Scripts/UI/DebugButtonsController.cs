@@ -9,10 +9,10 @@ public class DebugButtonsController : MonoBehaviour
     public Button LoadNextLevel;
     void Start()
     {
-        DontDestroyOnLoad(this);
         LoadBallSprite.onClick.AddListener(delegate {
             StartCoroutine(AssetBundleManager.Instance.LoadSingleAsset(AssetBundleManager.Instance.BallSpriteName)); });
-        LoadNextLevel.onClick.AddListener(delegate { StartCoroutine(AssetBundleManager.Instance.LoadLevel()); }) ;
+        LoadNextLevel.onClick.AddListener(delegate { 
+            StartCoroutine(AssetBundleManager.Instance.LoadLevel(AssetBundleManager.Instance.sceneName)); }) ;
     }
 
 }

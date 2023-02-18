@@ -8,22 +8,22 @@ using UnityEngine.SceneManagement;
 
 public class AssetBundleManager : Singleton<AssetBundleManager>
 {
-    public string AssetBundleURL;
-    public string AssetBundleName;
-    public uint AbVersion;
-    public string AbVersionURL;
-    public string BallSpriteName;
-    public string[] scenePaths;
+    public string sceneBundle = "file:///Assets/StreamingAssets/scenes";
+    public string spriteBundle = "2d";
+    //public uint AbVersion;
+    //public string AbVersionURL;
+    public string BallSpriteName = "BallSprite";
+    public string sceneName = "Level 1";
     private AssetBundle ab;
     private AssetBundle onlineAb;
 
     private IEnumerator Start()
-    {   
+    {
         if(!ab)
         {
-            yield return StartCoroutine(LoadAssets(AssetBundleName, result => ab = result));
-            ab.LoadAllAssets();
+            yield return StartCoroutine(LoadAssets(spriteBundle, result => ab = result));
         }
+            ab.LoadAllAssets();
         if(!onlineAb)
         {
             yield return StartCoroutine(LoadAssetFromURL());
@@ -33,7 +33,7 @@ public class AssetBundleManager : Singleton<AssetBundleManager>
     private IEnumerator LoadAssets(string name, Action<AssetBundle> bundle)
     {
         AssetBundleCreateRequest abcr;
-        string path = Path.Combine(Application.streamingAssetsPath, AssetBundleName);
+        string path = Path.Combine(Application.streamingAssetsPath, spriteBundle);
         abcr = AssetBundle.LoadFromFileAsync(path);
         yield return abcr;
         bundle.Invoke(abcr.assetBundle);
@@ -41,7 +41,7 @@ public class AssetBundleManager : Singleton<AssetBundleManager>
     }
     private IEnumerator LoadAssetFromURL()
     {
-        UnityWebRequest uwr = UnityWebRequestAssetBundle.GetAssetBundle(AssetBundleURL, AbVersion, 0);
+        UnityWebRequest uwr = UnityWebRequestAssetBundle.GetAssetBundle(sceneBundle);
         yield return uwr.SendWebRequest();
         if (uwr.result == UnityWebRequest.Result.ConnectionError ||
             uwr.result == UnityWebRequest.Result.ProtocolError)
@@ -56,46 +56,55 @@ public class AssetBundleManager : Singleton<AssetBundleManager>
         Debug.Log("Downloaded bytes: " + uwr.downloadedBytes);
         Debug.Log(onlineAb == null ? "Failed to download Asset Bundle" : "Asset Bundle Downloaded");
     }
-    private IEnumerator GetAbVersion()
-    {
-        UnityWebRequest uwr = UnityWebRequest.Get(AbVersionURL);
-        yield return uwr.SendWebRequest();
-        if (uwr.result == UnityWebRequest.Result.ConnectionError ||
-            uwr.result == UnityWebRequest.Result.ProtocolError)
-        {
-            Debug.Log(uwr.error);
-        }
-        Debug.Log(uwr.downloadHandler.text);
-        AbVersion = uint.Parse(uwr.downloadHandler.text);
-    }
+    //private IEnumerator GetAbVersion()
+    //{
+    //    UnityWebRequest uwr = UnityWebRequest.Get(AbVersionURL);
+    //    yield return uwr.SendWebRequest();
+    //    if (uwr.result == UnityWebRequest.Result.ConnectionError ||
+    //        uwr.result == UnityWebRequest.Result.ProtocolError)
+    //    {
+    //        Debug.Log(uwr.error);
+    //    }
+    //    Debug.Log(uwr.downloadHandler.text);
+    //    AbVersion = uint.Parse(uwr.downloadHandler.text);
+    //}
     public IEnumerator LoadSingleAsset(string assetName)
     {
-        var loadAssetReq = ab.LoadAssetAsync(assetName);
-        yield return loadAssetReq;
-        var ballSprite = FindObjectOfType<BallComponent>().GetComponent<SpriteRenderer>();
-        var texture = (Texture2D)loadAssetReq.asset;
-        Debug.Log(texture);
-        var newBallSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
-        ballSprite.sprite = newBallSprite;
-    }
-    public IEnumerator LoadLevel()
-    {
-        scenePaths = onlineAb.GetAllScenePaths();
-        int i = SceneManager.GetActiveScene().buildIndex;
-        Debug.Log(i);
-        Debug.Log(scenePaths.Length);
-        if (i == scenePaths.Length - 1)
+        if (ab == null) Debug.Log("Asset Bundle not loaded");
+        else
         {
-            i = 0;
+            var loadAssetReq = ab.LoadAssetAsync(assetName);
+            yield return loadAssetReq;
+
+            var ballSprite = FindObjectOfType<BallComponent>().GetComponent<SpriteRenderer>();
+            var texture = (Texture2D)loadAssetReq.asset;
+            var newBallSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+            ballSprite.sprite = newBallSprite;
+        }
+    }
+    public IEnumerator LoadLevel(string sceneName)
+    {
+        if (sceneBundle == null)
+        {
+            Debug.Log("Scene bundle not loaded");
+            yield break;
         }
 
-        AsyncOperation loadScene = SceneManager.LoadSceneAsync(scenePaths[i]);
-        yield return loadScene.isDone;
-        ab.LoadAllAssets();
+        AsyncOperation loadOperation = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
 
-        SceneManager.GetSceneByName(scenePaths[i]);
+        while (!loadOperation.isDone)
+        {
+            yield return null;
+        }
 
-        i++;
+        yield return null;
+
+        if (spriteBundle == null)
+        {
+            Debug.Log("Sprite bundle not loaded");
+            yield break;
+        }
+
     }
 
 

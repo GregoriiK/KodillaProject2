@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 1710634945
+CRC: 3502859403
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 8459c3c432ec81a8b964d8510758a46a
+    Hash: 7e8febedb40b5bdc44ed45c10d579f93
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 2cf1e1f93d1bef62f99b2ac9dbc50292
+    Hash: 9d3b99fd057fcb3a9f4da9e040876555
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -141,9 +141,9 @@ ClassTypes:
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
+- Assets/Scenes/Level 1.unity
 - Assets/Scenes/Level 2.unity
 - Assets/Scenes/TestLevel.unity
-- Assets/Scenes/Level 1.unity
 Dependencies:
 - C:/Users/Admin/Documents/GitHub/KodillaProject2/Assets/StreamingAssets/2d
 - C:/Users/Admin/Documents/GitHub/KodillaProject2/Assets/StreamingAssets/prefab1
