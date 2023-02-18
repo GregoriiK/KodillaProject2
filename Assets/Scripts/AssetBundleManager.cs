@@ -19,11 +19,11 @@ public class AssetBundleManager : Singleton<AssetBundleManager>
 
     private IEnumerator Start()
     {
-        if(!ab)
+        if (!ab)
         {
             yield return StartCoroutine(LoadAssets(spriteBundle, result => ab = result));
-        }
             ab.LoadAllAssets();
+        }        
         if(!onlineAb)
         {
             yield return StartCoroutine(LoadAssetFromURL());
@@ -84,6 +84,12 @@ public class AssetBundleManager : Singleton<AssetBundleManager>
     }
     public IEnumerator LoadLevel(string sceneName)
     {
+        if (SceneManager.GetActiveScene().name == sceneName)
+        {
+            Debug.Log("Scene already loaded");
+            yield break;
+        }
+
         if (sceneBundle == null)
         {
             Debug.Log("Scene bundle not loaded");
@@ -97,6 +103,9 @@ public class AssetBundleManager : Singleton<AssetBundleManager>
             yield return null;
         }
 
+        ab.Unload(true);
+        ab = null;
+
         yield return null;
 
         if (spriteBundle == null)
@@ -104,6 +113,10 @@ public class AssetBundleManager : Singleton<AssetBundleManager>
             Debug.Log("Sprite bundle not loaded");
             yield break;
         }
+
+
+        yield return StartCoroutine(LoadAssets(spriteBundle, result => ab = result));
+        ab.LoadAllAssets();
 
     }
 
