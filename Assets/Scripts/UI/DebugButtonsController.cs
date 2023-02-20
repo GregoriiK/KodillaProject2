@@ -12,7 +12,7 @@ public class DebugButtonsController : MonoBehaviour
         LoadBallSprite.onClick.AddListener(delegate {
             StartCoroutine(AssetBundleManager.Instance.LoadSingleAsset(AssetBundleManager.Instance.BallSpriteName)); });
         LoadNextLevel.onClick.AddListener(delegate { 
-            StartCoroutine(AssetBundleManager.Instance.LoadLevel(AssetBundleManager.Instance.sceneName)); }) ;
+            StartCoroutine(AssetBundleManager.Instance.LoadLevel(AssetBundleManager.Instance.sceneNames[AssetBundleManager.Instance.NextId])); }) ;
     }
 
 }

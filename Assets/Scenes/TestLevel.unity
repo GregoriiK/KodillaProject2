@@ -12955,18 +12955,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4684539990438149250, guid: 1ead9c8f9dc63d541ac0fa1ce53c4aba, type: 3}
-      propertyPath: sceneName
-      value: Level 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4684539990438149250, guid: 1ead9c8f9dc63d541ac0fa1ce53c4aba, type: 3}
-      propertyPath: sceneBundle
-      value: file:///Assets/StreamingAssets/scenes
-      objectReference: {fileID: 0}
-    - target: {fileID: 4684539990438149250, guid: 1ead9c8f9dc63d541ac0fa1ce53c4aba, type: 3}
-      propertyPath: spriteBundle
-      value: 2d
-      objectReference: {fileID: 0}
     - target: {fileID: 4684539990438149251, guid: 1ead9c8f9dc63d541ac0fa1ce53c4aba, type: 3}
       propertyPath: m_RootOrder
       value: 18

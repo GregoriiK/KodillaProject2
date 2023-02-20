@@ -6,19 +6,50 @@ using UnityEngine.Networking;
 using System;
 using UnityEngine.SceneManagement;
 
-public class AssetBundleManager : Singleton<AssetBundleManager>
+public class AssetBundleManager : MonoBehaviour
 {
+    public static AssetBundleManager Instance { get; private set; }
+
     public string sceneBundle = "file:///Assets/StreamingAssets/scenes";
     public string spriteBundle = "2d";
     //public uint AbVersion;
     //public string AbVersionURL;
     public string BallSpriteName = "BallSprite";
-    public string sceneName = "Level 1";
+    public List<string> sceneNames;
     private AssetBundle ab;
     private AssetBundle onlineAb;
+    private int nextId = -1;
+
+    public int NextId
+    {
+        get
+        {
+            nextId++;
+            if(nextId >= sceneNames.Count)
+            {
+                nextId = 0;
+            }
+
+            return nextId;
+        }
+    }
+
+    private void Awake()
+    {
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     private IEnumerator Start()
     {
+        DontDestroyOnLoad(gameObject);
+
         if (!ab)
         {
             yield return StartCoroutine(LoadAssets(spriteBundle, result => ab = result));

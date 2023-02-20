@@ -44,9 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a07b5db0631c2c64f9041d456168fca1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AssetBundleURL: file:///C:/Users/Admin/Documents/GitHub/KodillaProject2/Assets/StreamingAssets/scenes
-  AssetBundleName: 2d
-  AbVersion: 1
-  AbVersionURL: https://uploads.kodilla.com/bootcamp/gamedev/abVersion.txt
+  sceneBundle: file:///Assets/StreamingAssets/scenes
+  spriteBundle: 2d
   BallSpriteName: BallSprite
-  scenePaths: []
+  sceneNames:
+  - Level 1
+  - Level 2
+  - TestLevel
