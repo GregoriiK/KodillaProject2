@@ -8,6 +8,8 @@ public class BallComponent : InteractiveComponent
     private LineRenderer m_lineRenderer;
     private TrailRenderer m_trailRenderer;
     private bool m_hitTheGround = false;
+    public bool miss = false;
+    private bool collidedAlready = false;
 
     public float SlingStart = 0.5f;
     public float MaxSpringDistance = 2.5f;
@@ -85,6 +87,9 @@ public class BallComponent : InteractiveComponent
         m_connectedJoint.enabled = true;
         m_lineRenderer.enabled = false;
         m_trailRenderer.enabled = false;
+        collidedAlready = false;
+        if (miss) GameplayManager.Instance.missCount++;
+        miss = false;
 
         SetLineRendererPoints();
     }
@@ -144,6 +149,14 @@ public class BallComponent : InteractiveComponent
             PlaySound(m_audioSource, GameDatabase.HitSound);
             m_hitTheGround = true;
         }
+
+        if (collision.collider.gameObject.layer != LayerMask.NameToLayer("Target") && !collidedAlready)
+        {
+            miss = true;
+        }
+
+        collidedAlready = true;
+
     }
 
     public bool IsSimulated()
@@ -151,4 +164,11 @@ public class BallComponent : InteractiveComponent
         return m_rigidbody2d.simulated;
     }
 
+    private void OnDestroy()
+    {
+        if (miss)
+        {
+            GameplayManager.Instance.missCount++;
+        }
+    }
 }

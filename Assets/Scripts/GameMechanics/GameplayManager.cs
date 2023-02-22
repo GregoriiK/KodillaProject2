@@ -20,6 +20,8 @@ public class GameplayManager : Singleton<GameplayManager>
     private HUDController m_HUD;
     private int m_points = 0;
 
+    public int missCount = 0;
+
     //public int LifetimeHits;
 
     List<IRestartableObject> m_restartableObjects = new List<IRestartableObject>();
