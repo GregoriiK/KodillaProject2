@@ -150,3 +150,5 @@ MonoBehaviour:
   m_startRotation: {x: 0, y: 0, z: 0, w: 0}
   m_rigidbody2d: {fileID: 0}
   GameDatabase: {fileID: 11400000, guid: 47e7115bea3369e43b900b1f935177ac, type: 2}
+  particlePoolSize: 4
+  woodHitParticlesPrefab: {fileID: 2906279413220246871, guid: b57ac5db0ad396d44b6ef78592c1f59e, type: 3}

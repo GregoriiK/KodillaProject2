@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Threading.Tasks;
-using System.IO;
 
 public class GameplayManager : Singleton<GameplayManager>
 {
@@ -22,8 +20,6 @@ public class GameplayManager : Singleton<GameplayManager>
 
     public int missCount = 0;
 
-    //public int LifetimeHits;
-
     List<IRestartableObject> m_restartableObjects = new List<IRestartableObject>();
 
     public enum EGameState
@@ -37,27 +33,10 @@ public class GameplayManager : Singleton<GameplayManager>
 
     private void Start()
     {
-        //m_state = EGameState.Playing;
-
-        //GameState = EGameState.Paused;
-        //Instantiate(GameDatabase.TargetPerfab, new Vector3(13.5f, -1.59f, 0f), Quaternion.identity);
-
         GetAllRestartableObjects();
         m_HUD = FindObjectOfType<HUDController>();
         Points = 0;
-        //LoadHitcount();
     }
-
-    //public void SaveHitcount()
-    //{
-    //    PlayerPrefs.SetInt("LifetimeHits", LifetimeHits);
-    //}
-
-    //public void LoadHitcount()
-    //{
-    //    LifetimeHits = PlayerPrefs.GetInt("LifetimeHits");
-    //    Debug.Log("Lifetime Hits: " + LifetimeHits);
-    //}
 
 
     void Update()
@@ -120,7 +99,9 @@ public class GameplayManager : Singleton<GameplayManager>
 
     public void Restart()
     {
-        foreach (var restartableObject in m_restartableObjects) restartableObject.DoRestart();
+        // 3. Optimization - for loop instead of foreach.
+        for (int i = 0; i < m_restartableObjects.Count;i++) m_restartableObjects[i].DoRestart(); 
+        //foreach (var restartableObject in m_restartableObjects) restartableObject.DoRestart();
 
         Points = 0;
 

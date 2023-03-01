@@ -5,6 +5,8 @@ public class BallComponent : InteractiveComponent
 {
     private SpringJoint2D m_connectedJoint;
     private Rigidbody2D m_connectedBody;
+    private Vector2 firstSlingArmPosition;
+    private Vector2 secondSlingArmPosition;
     private LineRenderer m_lineRenderer;
     private TrailRenderer m_trailRenderer;
     private bool m_hitTheGround = false;
@@ -40,6 +42,13 @@ public class BallComponent : InteractiveComponent
         m_trailRenderer = GetComponent<TrailRenderer>();
         cameraController = FindObjectOfType<CameraController>();
         m_audioSource = GetComponent<AudioSource>();
+<<<<<<< Updated upstream
+=======
+
+        //1. Optimization - moved caluclating of sling "attachement positions" to start from update
+        firstSlingArmPosition = m_connectedBody.position + FirstSlingArmOffset;
+        secondSlingArmPosition = m_connectedBody.position + SecondSlingArmOffset;
+>>>>>>> Stashed changes
 
         m_lineRenderer.enabled = false;
         m_trailRenderer.enabled = false;
@@ -98,8 +107,6 @@ public class BallComponent : InteractiveComponent
     {
         m_lineRenderer.positionCount = 3;
         Vector2 curBallPos = new Vector2(transform.position.x, transform.position.y);
-        var firstSlingArmPosition = m_connectedBody.position + FirstSlingArmOffset;
-        var secondSlingArmPosition = m_connectedBody.position + SecondSlingArmOffset;
         var ballSlingPosition = curBallPos + BallSlingOffset;
         m_lineRenderer.SetPositions(new Vector3[] { firstSlingArmPosition, ballSlingPosition, secondSlingArmPosition });
     }
