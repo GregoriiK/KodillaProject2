@@ -11,7 +11,7 @@ public class TestDrivenDevelopment : Singleton<TestDrivenDevelopment>
     public int prefabCount;
     public float furtherPrefabSpawnPoint;
 
-    private float nearestPrefabSpawnPointOffset = 0.255f; // the width of the top plank of a target prefab
+    private float nearestPrefabSpawnPointOffset = 1.63f; // the width of the top plank of a target prefab
     private bool isThereEnoughPrefabs;
     private int placedPrefabs;
     private List<GameObject> objectsInScene = new List<GameObject>();
@@ -48,15 +48,9 @@ public class TestDrivenDevelopment : Singleton<TestDrivenDevelopment>
                 placedPrefabs++;
             }
         }
-        if (placedPrefabs < prefabCount)
+        if (placedPrefabs >= prefabCount)
         {
-            Debug.Log("Incorrect amount of prefabs in a scene");
-        }
-        else
-        {
-            Debug.Log("Correct amount of prefabs");
             isThereEnoughPrefabs = true;
-
         }
     }
 }
