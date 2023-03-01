@@ -39,7 +39,7 @@ public class BallComponent : InteractiveComponent
         m_lineRenderer = GetComponent<LineRenderer>();
         m_trailRenderer = GetComponent<TrailRenderer>();
         cameraController = FindObjectOfType<CameraController>();
-        m_audioSource = GetComponent<AudioSource>();
+        //m_audioSource = GetComponent<AudioSource>();
 
         m_lineRenderer.enabled = false;
         m_trailRenderer.enabled = false;
