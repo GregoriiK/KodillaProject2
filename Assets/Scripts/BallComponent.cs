@@ -42,13 +42,10 @@ public class BallComponent : InteractiveComponent
         m_trailRenderer = GetComponent<TrailRenderer>();
         cameraController = FindObjectOfType<CameraController>();
         m_audioSource = GetComponent<AudioSource>();
-<<<<<<< Updated upstream
-=======
 
         //1. Optimization - moved caluclating of sling "attachement positions" to start from update
         firstSlingArmPosition = m_connectedBody.position + FirstSlingArmOffset;
         secondSlingArmPosition = m_connectedBody.position + SecondSlingArmOffset;
->>>>>>> Stashed changes
 
         m_lineRenderer.enabled = false;
         m_trailRenderer.enabled = false;

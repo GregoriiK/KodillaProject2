@@ -1,0 +1,2 @@
+Przy aktywnym Dynamic Batching'u parametr Batched Draw Calls wyniósł 16 a Batches 6 (pomiar na średnim użyciu zasobów, nie na piku)
+przy nieaktywnym DB - Batched Draw Calls sięgnął 26, Batches 8.
